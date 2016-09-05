@@ -44,13 +44,13 @@ app.post('/webhook/', function (req, res) {
 	if (event.message && event.message.text) {
 	    let text = event.message.text
 	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;'));
+	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;').then(res => res.rows[0]);
 	    sendTextMessage(sender, "JEKKA: " + client.query('SELECT * FROM test_table;', function(err, result) {
 	        //done();
 	        if (err)
 		{ return "Error " + err; }
 	        else
-		{ return result.rows[0];}
+		{ return result.rows[0].name;}
 	    }));
 	}
     }
