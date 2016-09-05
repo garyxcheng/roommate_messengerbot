@@ -47,9 +47,9 @@ app.post('/webhook/', function (req, res) {
 	    sendTextMessage(sender, "Text received, echo: " + client.query('SELECT * FROM test_table', function(err, result) {
 	        done();
 	        if (err)
-		{ console.error(err); res.send("Error " + err); }
+		{ return "Error " + err; }
 	        else
-		{ return result.rows}
+		{ return result.rows;}
 	    });)
 	}
     }
