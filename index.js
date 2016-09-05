@@ -43,7 +43,14 @@ app.post('/webhook/', function (req, res) {
 	let sender = event.sender.id
 	if (event.message && event.message.text) {
 	    let text = event.message.text
-	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+	    // sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+	    sendTextMessage(sender, "Text received, echo: " + client.query('SELECT * FROM test_table', function(err, result) {
+	        done();
+	        if (err)
+		{ console.error(err); res.send("Error " + err); }
+	        else
+		{ return result.rows}
+	    });)
 	}
     }
     res.sendStatus(200)
