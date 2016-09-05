@@ -45,7 +45,7 @@ app.post('/webhook/', function (req, res) {
 	    let text = event.message.text
 	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
 	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;').then(res => res.rows[0]);
-	    sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_table;', function(err, result) {
+	    sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_tabe;', function(err, result) {
 	        //done();
 	        if (err)
 		{ return "Error " + err; }
