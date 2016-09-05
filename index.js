@@ -6,9 +6,9 @@ const request = require('request')
 const app = express()
 var pg = require('pg');
 
-var connectionString = process.env.DATABASE_URL;
-var client = new pg.Client(connectionString);
-client.connect();
+//var connectionString = process.env.DATABASE_URL;
+//var client = new pg.Client(connectionString);
+//client.connect();
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -44,13 +44,13 @@ app.post('/webhook/', function (req, res) {
 	if (event.message && event.message.text) {
 	    let text = event.message.text
 	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
-	    sendTextMessage(sender, "Text received, echo: " + client.query('SELECT * FROM test_table', function(err, result) {
+	    /*sendTextMessage(sender, "Text received, echo: " + client.query('SELECT * FROM test_table', function(err, result) {
 	        done();
 	        if (err)
 		{ return "Error " + err; }
 	        else
 		{ return result.rows;}
-	    });)
+	    });)*/
 	}
     }
     res.sendStatus(200)
