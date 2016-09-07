@@ -46,9 +46,18 @@ app.post('/webhook/', function (req, res) {
 	    if (event.message && event.message.text) {
 	      let text = event.message.text;
 	      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
-        client.query('SELECT * FROM test_table;').on('row', function(row) {
-          sendTextMessage(sender, "JEKKA: " + JSON.stringify(row));
+        pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+          client.query('SELECT * FROM test_table', function(err, result) {
+            done();
+            if (err)
+              { console.error(err); response.send("Error " + err); }
+            else
+              { sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.row)); }
+          });
         });
+        // client.query('SELECT * FROM test_table;').on('row', function(row) {
+        //   sendTextMessage(sender, "JEKKA: " + JSON.stringify(row));
+        // });
 
 	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;').then(res => res.rows[0]);
 	  //   sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_table;', function(err, result) {
