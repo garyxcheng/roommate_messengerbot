@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
             if (err)
               { console.error(err); response.send("Error " + err); }
             else
-              { sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.row)); }
+              { sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.rows[0])); }
           });
         });
         // client.query('SELECT * FROM test_table;').on('row', function(row) {
