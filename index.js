@@ -55,26 +55,6 @@ app.post('/webhook/', function (req, res) {
               { sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.rows[0])); }
           });
         });
-        // client.query('SELECT * FROM test_table;').on('row', function(row) {
-        //   sendTextMessage(sender, "JEKKA: " + JSON.stringify(row));
-        // });
-
-	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;').then(res => res.rows[0]);
-	  //   sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_table;', function(err, result) {
-	  //       //done();
-	  //       if (err)
-		// { return "Error " + err; }
-	  //       else
-		// { return result.rows[0].name;}
-	  //   })));
-        // pg.connect(process.env.DATABASE_URL, function(err, client) {
-        //   if (err) throw err;
-        //   console.log('Connected to postgres! Getting schemas...');
-        //
-        //   client.query('SELECT * FROM test_table;').on('row', function(row) {
-        //     sendTextMessage(sender, "JEKKA: " + JSON.stringify(row));
-        //   });
-        // });
 	    }
     }
     res.sendStatus(200)
