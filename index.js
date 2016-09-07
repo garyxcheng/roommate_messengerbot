@@ -6,6 +6,8 @@ const request = require('request')
 const app = express()
 var pg = require('pg');
 
+pg.defaults.ssl = true;
+
 var connectionString = "postgres://sciefmdltovpgf:_ZvjMSKxSioNzHzthDMMlQ5Ziw@ec2-54-235-68-4.compute-1.amazonaws.com:5432/deut9i6kcu526n";
 var client = new pg.Client(connectionString);
 client.connect();
