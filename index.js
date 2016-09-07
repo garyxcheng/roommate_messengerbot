@@ -8,10 +8,6 @@ var pg = require('pg');
 
 pg.defaults.ssl = true;
 
-// var connectionString = process.env.DATABASE_URL;
-// var client = new pg.Client(connectionString);
-// client.connect();
-
 app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
