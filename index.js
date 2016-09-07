@@ -39,25 +39,33 @@ app.listen(app.get('port'), function() {
 })
 
 app.post('/webhook/', function (req, res) {
-    let messaging_events = req.body.entry[0].messaging
+    let messaging_events = req.body.entry[0].messaging;
     for (let i = 0; i < messaging_events.length; i++) {
-	let event = req.body.entry[0].messaging[i]
-	let sender = event.sender.id
-	if (event.message && event.message.text) {
-	    let text = event.message.text
-	    sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+	    let event = req.body.entry[0].messaging[i];
+	    let sender = event.sender.id;
+	    if (event.message && event.message.text) {
+	      let text = event.message.text;
+	      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
 	    //sendTextMessage(sender, "Maybe?? " + client.query('SELECT * FROM test_table;').then(res => res.rows[0]);
-	    sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_table;', function(err, result) {
-	        //done();
-	        if (err)
-		{ return "Error " + err; }
-	        else
-		{ return result.rows[0].name;}
-	    })));
-	}
+	  //   sendTextMessage(sender, "JEKKA: " + JSON.stringify(client.query('SELECT * FROM test_table;', function(err, result) {
+	  //       //done();
+	  //       if (err)
+		// { return "Error " + err; }
+	  //       else
+		// { return result.rows[0].name;}
+	  //   })));
+        pg.connect(process.env.DATABASE_URL, function(err, client) {
+          if (err) throw err;
+          console.log('Connected to postgres! Getting schemas...');
+
+          client.query('SELECT * FROM test_table;').on('row', function(row) {
+            sendTextMessage(sender, "JEKKA: " + JSON.stringify(row));
+          });
+        });
+	    }
     }
     res.sendStatus(200)
-})
+});
 
 const token = "EAAYXLPi0SSoBAAu6Kxhbh0IYnAB9u2w2CNHOY7XWwS09NKFxJiblvftUAydOnsOh6VEntZB58UdPcYJYXkSKBRc31DRjLrArne8UlEu9b4xur1tFpPuvaDs5KxhC5ZCjdUKjivp6ZBGZA0hSZBaUK48FKZAoHEwvobZA4debNcERQZDZD"
 
