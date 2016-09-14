@@ -41,14 +41,30 @@ app.post('/webhook/', function (req, res) {
 	    let sender = event.sender.id;
 	    if (event.message && event.message.text) {
 	      let text = event.message.text;
+        var q = null;
+        var r = null;
+        if text.substring(0, 200) == "c" {
+          q = 'TRUNCATE grocery_list';
+          r = 'grocery list cleared';
+        } else if text.substring(0, 200) == "p" {
+          q = 'SELECT * FROM grocery_list';
+          r = null;
+        } else {
+          q = 'INSERT INTO grocery_list (item) VALUES (' + text.substring(0,200) + ')';
+          r = 'added ' + text.substring(0,200);
+        }
+
 	      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-          client.query('SELECT * FROM test_table', function(err, result) {
+          client.query(q, function(err, result) {
             done();
-            if (err)
-              { console.error(err); response.send("Error " + err); }
-            else
-              { sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.rows[0])); }
+            if (err) {
+              console.error(err); response.send("Error " + err);
+            } else if (!r) {
+              sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.rows[0]));
+            } else {
+              sendTextMessage(sender, r);
+            }
           });
         });
 	    }
