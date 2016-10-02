@@ -44,14 +44,14 @@ app.post('/webhook/', function (req, res) {
         var q = null;
         var r = null;
         if (text.substring(0, 200) == "c") {
-          q = 'TRUNCATE grocery_list';
-          r = 'grocery list cleared';
+          q = "TRUNCATE grocery_list;";
+          r = "grocery list cleared";
         } else if (text.substring(0, 200) == "p") {
-          q = 'SELECT * FROM grocery_list';
+          q = "SELECT * FROM grocery_list;";
           r = null;
         } else {
-          q = 'INSERT INTO grocery_list (item) VALUES (' + text.substring(0,200) + ')';
-          r = 'added ' + text.substring(0,200);
+          q = "INSERT INTO grocery_list VALUES (" + text.substring(0,200) + ");";
+          r = "added " + text.substring(0,200);
         }
 
 	      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
@@ -60,6 +60,7 @@ app.post('/webhook/', function (req, res) {
             done();
             if (err) {
               console.error(err); response.send("Error " + err);
+              sendTextMessage(sender, "ERROR" + text.substring(0, 200));
             } else if (!r) {
               sendTextMessage(sender, "JEKKA: " + JSON.stringify(result.rows[0]));
             } else {
