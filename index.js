@@ -43,10 +43,10 @@ app.post('/webhook/', function (req, res) {
 	      let text = event.message.text;
         var q = null;
         var r = null;
-        if text.substring(0, 200) == "c" {
+        if (text.substring(0, 200) == "c") {
           q = 'TRUNCATE grocery_list';
           r = 'grocery list cleared';
-        } else if text.substring(0, 200) == "p" {
+        } else if (text.substring(0, 200) == "p") {
           q = 'SELECT * FROM grocery_list';
           r = null;
         } else {
